@@ -9,6 +9,7 @@ RMQ : On utilise ici le B,A,BA de Python.
 '''
 
 import math
+import random
 import matplotlib.pyplot as plt 
 
 #---------------------------------------
@@ -47,6 +48,8 @@ def make_signal(a, f, fe, ph, d, func):
         
     return sig_t, sig_s
    
+   # Generate Gaussian noise
+
 #---------------------------------------
 
 def plot_on_ax(ax, inx, iny, label, format='-bo'):
@@ -85,7 +88,8 @@ def q2():
         # Create the figure and axes
         _, ax = plt.subplots()
 
-        ((x1,y1),(x2,y2))=(make_signal(a1,f1,fe1,ph1,d1,func_sin),make_signal(a2,f2,fe2,ph2,d2,func_sin))   
+        ((x1,y1),(x2,y2))=(make_signal(a1,f1,fe1,ph1,d1,func_sin)
+                           ,make_signal(a2,f2,fe2,ph2,d2,func_sin))   
 
         # Plot the first sine wave with blue circles
         ax.plot(x1, y1, '-bo', linestyle='',markersize=6)  # No lines
@@ -97,7 +101,8 @@ def q2():
         ax.set_xlim(0, 0.04)
 
         # Add the legend autoamtically
-        (legend_label1,legend_label2) = ((f"s1 : f={f1}, fe={fe1}, ph={ph1}") , (f"s2 : f={f2}, fe={fe2}, ph={ph2:.2f}"))
+        (legend_label1,legend_label2) = ((f"s1 : f={f1}, fe={fe1}, ph={ph1}") , 
+                                         (f"s2 : f={f2}, fe={fe2}, ph={ph2:.2f}"))
         ax.legend([legend_label1, legend_label2])
 
         # Add labels and title
@@ -114,14 +119,19 @@ def q3a():
     # Generate square wave
     t, s = make_signal(a, f, fe, phi, d, func_square)
 
-    # Plot the square wave
-    plt.plot(t, s, '-bo')
-    plt.xlabel('time (s)')
-    plt.ylabel('voltage (V)')
-    plt.title('Un carre')
-    legend_label1 = (f"f={f}, fe={fe}, ph={phi}")
-    plt.legend([legend_label1])
-    plt.grid(True)
+    t, s = make_signal(a, f, fe, phi, d, func_square)
+
+    # Create the figure and axes
+    _, ax = plt.subplots()
+
+    # Plot the square wave using the plot_on_ax function
+    legend_label = f"Square Wave: a={a}, f={f}, fe={fe}"
+    plot_on_ax(ax, t, s, legend_label, format='-bo')  # Adjust the format as needed
+
+    # Decorate the axes with the decorate_ax function
+    decorate_ax(ax, "Un carre")
+
+    # Display the plot
     plt.show()
 
 def q3b():
@@ -167,9 +177,9 @@ if __name__ == '__main__':
     elif user_choice == 'q3c':
         q3c()
     else:
-        q1()
+        '''q1()
         q2()
         q3a()
         q3b()
-        q3c()
-        print("Invalid choice.")
+        q3c()'''
+        print("All the questions")
