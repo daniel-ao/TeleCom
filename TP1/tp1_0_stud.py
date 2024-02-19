@@ -1,3 +1,18 @@
+# Copyright (C) 2024 ABOU ORM Daniel
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# 
+# For the full terms of the GNU GPL, please refer to the LICENSE.txt file.
+
 '''
 File : tp1_0_stud.py
 
@@ -9,7 +24,6 @@ RMQ : On utilise ici le B,A,BA de Python.
 '''
 
 import math
-import random
 import matplotlib.pyplot as plt 
 
 #---------------------------------------
@@ -136,39 +150,51 @@ def q3a():
 
 def q3b():
     (a,f,fe,ph,d)=(3,50,250000,0,0.08) # Define parameters for the sawtooth wave
-    t_sawtooth, s_sawtooth = make_signal(a, f, fe, ph, d, func=func_sawtooth)
+    # Generate sawtooth wave
+    t_sawtooth, s_sawtooth = make_signal(a, f, fe, ph, d, func_sawtooth)
 
-    plt.plot(t_sawtooth, s_sawtooth, '-bo')
-    plt.xlabel('time (s)')
-    plt.ylabel('voltage (V)')
-    plt.title('Une dent de scie')
-    legend_label1 =(f"f={f}, fe={fe}, ph={ph:.2f}")
-    plt.legend([legend_label1])
-    plt.grid(True)
+    # Create the figure and axes
+    _, ax = plt.subplots()
+
+    # Plot the sawtooth wave using plot_on_ax
+    legend_label = f"Sawtooth Wave: a={a}, f={f}, fe={fe}"
+    plot_on_ax(ax, t_sawtooth, s_sawtooth, legend_label, format='-bo')  # Adjust the format as needed
+
+    # Decorate the axes using decorate_ax
+    decorate_ax(ax, "Une dent de scie")
+
+    # Display the plot
     plt.show()
    
 def q3c():
-    # To create a triangle wave
-    (a,f,fe,ph,d)=(3,50,800,0,0.08)
-    t_triangle, s_triangle = make_signal(a, f, fe, ph, d, func=func_triangle)
-    plt.plot(t_triangle, s_triangle, '-bo')
-    plt.xlabel('time (s)')
-    plt.ylabel('voltage (V)')
-    plt.title('Un triangle')
-    legend_label1 = (f"f={f}, fe={fe}, ph={ph}")
-    plt.legend([legend_label1])
-    plt.grid(True)
-    plt.show()   
+     # Define parameters for the triangle wave
+    (a, f, fe, ph, d) = (3, 50, 800, 0, 0.08)
+
+    # Generate triangle wave
+    t_triangle, s_triangle = make_signal(a, f, fe, ph, d, func_triangle)
+
+    # Create the figure and axes
+    _, ax = plt.subplots()
+
+    # Plot the triangle wave using plot_on_ax
+    legend_label = f"Triangle Wave: a={a}, f={f}, fe={fe}"
+    plot_on_ax(ax, t_triangle, s_triangle, legend_label, format='-bo')  # Adjust the format as needed
+
+    # Decorate the axes using decorate_ax
+    decorate_ax(ax, "Un triangle")
+
+    # Display the plot
+    plt.show() 
 
 
 if __name__ == '__main__':
     # Ask the user to input their choice
-    user_choice = input("Choose an option (q1, q2, q3a, q3b): ")
+    user_choice = input("Choose an option (q1, q2, q3a, q3b,q3c): ")
 
     # Check the user's choice and execute the corresponding block of code
-    if user_choice == 'q1':
+    if user_choice ==    'q1':
         q1()
-    elif user_choice == 'q2':
+    elif user_choice ==  'q2':
         q2()
     elif user_choice == 'q3a':
         q3a()
@@ -177,9 +203,9 @@ if __name__ == '__main__':
     elif user_choice == 'q3c':
         q3c()
     else:
-        '''q1()
-        q2()
-        q3a()
-        q3b()
-        q3c()'''
-        print("All the questions")
+        ''' q1()
+            q2()
+            q3a()
+            q3b()
+            q3c() '''
+        print("Invalid choice! Please choose a valid option.")

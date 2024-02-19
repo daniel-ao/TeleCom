@@ -1,8 +1,21 @@
+# Copyright (C) 2024 ABOU ORM Daniel
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# 
+# For the full terms of the GNU GPL, please refer to the LICENSE.txt file.
+
 import struct
 import wave
-import math
-
-# Assuming tp1_0 and noise are custom modules that you have created or been provided with
+# Assuming tp1_0 and second part 
 import tp1_0_stud
 import tp1_1
 
@@ -34,15 +47,17 @@ def write_a_wave_file(x, y, fn="son.wav"):
     wave_file.close()
 
 def make_anoisysignal(a, f, fe, ph, d):
-    x1, y1 = tp1_0_stud.make_sin(a, f, fe, ph, d)
+    x1, y1 = tp1_0_stud.make_signal(a, f, fe, ph, d,tp1_0_stud.func_sin)
     m = 0.0  # mean
     e = 0.05  # standard deviation
     x2, y2 = tp1_1.noise_white(x1, m, e)
     m1 = 0.0  # mean
     e1 = 1.6 * a  # standard deviation
     x3, y3 = tp1_1.noise_impulse(2, 1000, x1, m1, e1)
-    x4, y4 = tp1_1.signal_add(x1, y1, x2, y2)
-    x4, y4 = tp1_1.signal_add(x4, y4, x3, y3)
+
+    x4, y4 = tp1_1.add_signals(x1, y1, x2, y2)
+    x4, y4 = tp1_1.add_signals(x4, y4, x3, y3)
+
     return x4, y4
 
 if __name__ == '__main__':

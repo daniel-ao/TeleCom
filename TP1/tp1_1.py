@@ -1,4 +1,18 @@
-import math
+# Copyright (C) 2024 ABOU ORM Daniel
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# 
+# For the full terms of the GNU GPL, please refer to the LICENSE.txt file.
+
 import random
 import matplotlib.pyplot as plt
 import numpy as np 
@@ -17,19 +31,54 @@ def generate_impulsive_noise(time_array, magnitude, frequency):
     return noise
 
 # Function to add one signal to another
-def add_signals(signal1, signal2):
-    return signal1 + signal2
+def add_signals(signal1, signal2,signal3,signal4):
+    return signal1 + signal2 +signal3+signal4
 # Function to add one signal to another
 def add_signalsBETA(signal1, signal2):
     return [signal1[i] + signal2[i] for i in range(len(signal1))]
 
-# Parameters for the signals
-a = 2.0  # Amplitude of the sinusoidal signal
-f = 50.0  # Frequency of the sinusoidal signal
-fe = 800.0  # Sampling frequency
-d = 0.08  # Duration of the signals
-ph = 0  # Phase of the sinusoidal signal
-sigma_noise = 0.2  # Standard deviation of the Gaussian noise
+def noise_white(x, mean=0.0, std_dev=1.0):
+    """
+    Generate a Gaussian noise signal (white noise) based on an existing time base.
+
+    Parameters:
+    - x: Array of time points (existing time base).
+    - mean: Mean of the Gaussian distribution.
+    - std_dev: Standard deviation of the Gaussian distribution.
+
+    Returns:
+    - x: The same input array of time points.
+    - y: Array of noise values generated with Gaussian distribution.
+    """
+    y = np.random.normal(mean, std_dev, size=len(x))
+    return x, y
+
+def noise_impulse(x, num_impulses, impulse_interval, mean=0.0, std_dev=1.0):
+    """
+    Generate an impulsive noise signal based on an existing time base.
+
+    Parameters:
+    - x: Array of time points (existing time base).
+    - num_impulses: Number of impulses to generate.
+    - impulse_interval: Interval between impulses in terms of the number of samples.
+    - mean: Mean amplitude of the impulses.
+    - std_dev: Standard deviation of the impulse amplitudes.
+
+    Returns:
+    - x: The same input array of time points.
+    - y: Array of impulsive noise values.
+    """
+    y = np.zeros_like(x)  # Initialize the noise signal with zeros
+    for i in range(num_impulses):
+        # Calculate the index for each impulse
+        index = i * impulse_interval
+        if index < len(x):
+            # Generate an impulse with amplitude from a Gaussian distribution
+            impulse_amplitude = np.random.normal(mean, std_dev)
+            y[index] = impulse_amplitude
+    return x, y
+# Parameters
+(a,f,fe,ph,d,sigma_noise)=(2,50,800,0,0.08,0.2)
 
 # Generate the time base
 time_base = np.linspace(0, d, int(fe * d))
@@ -48,6 +97,7 @@ noisy_signal = add_signalsBETA(sinusoidal_signal, gaussian_noise)
 
 # Plot the results
 plt.figure(figsize=(15, 10))
+
 
 # Plot clean sinusoidal signal
 plt.subplot(4, 1, 1)
@@ -75,7 +125,7 @@ plt.legend()
 
 # Adjust layout
 plt.tight_layout()
-plt.show()
+#plt.show()
 
 if __name__ == '__main__':
     pass
